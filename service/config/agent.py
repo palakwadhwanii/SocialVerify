@@ -1,0 +1,3 @@
+AGENT_CONFIG = {
+    "MAX_RECURSION_LIMIT": 10
+}

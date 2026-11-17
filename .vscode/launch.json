@@ -1,0 +1,42 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Run All: SocialVerify Full Stack",
+      "configurations": [
+        "Python: AI Microservice (Port 8010)",
+        "Server: Express Backend (Port 9000)",
+        "Client: Next.js Frontend (Port 3000/3001)"
+      ]
+    }
+  ],
+  "configurations": [
+    {
+      "name": "Python: AI Microservice (Port 8010)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/service/app.py",
+      "cwd": "${workspaceFolder}/service",
+      "python": "${workspaceFolder}/service/.venv/bin/python",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Server: Express Backend (Port 9000)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": ["run", "src/index.ts"],
+      "cwd": "${workspaceFolder}/server",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Client: Next.js Frontend (Port 3000/3001)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "${workspaceFolder}/client",
+      "console": "integratedTerminal"
+    }
+  ]
+}

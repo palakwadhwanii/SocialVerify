@@ -1,0 +1,98 @@
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import Logo from "./Logo";
+import LogoutButton from "./LogoutButton";
+
+const chrome = {
+  skip: "Skip to content",
+  menu: "Menu",
+  navigation: [
+    { label: "Our approach", href: "/#approach" },
+    { label: "The bigger picture", href: "/#perspective" },
+  ],
+  signin: { label: "Sign in", href: "/auth/signin" },
+  signup: { label: "Get started", href: "/auth/signup" },
+  dashboard: { label: "Dashboard", href: "/dashboard" },
+  footer: "Independent thinking. Connected perspectives.",
+  copyright: "SocialVerify. Built for the curious.",
+};
+
+export function SiteHeader({
+  authenticated = false,
+}: {
+  authenticated?: boolean;
+}) {
+  const primary = authenticated ? chrome.dashboard : chrome.signup;
+  return (
+    <>
+      <Link
+        className="skip-link fixed top-2.5 left-2.5 z-50 translate-y-[-180%] bg-foreground p-3 text-inverse focus:translate-y-0"
+        href="#main-content"
+      >
+        {chrome.skip}
+      </Link>
+      <header className="site-header flex items-center justify-between gap-6 border-b border-border py-6 md:py-7 section-wrap mx-auto w-[calc(100%-40px)] max-w-332 md:w-[calc(100%-64px)] xl:w-[calc(100%-112px)]">
+        <Logo />
+        <nav
+          className="desktop-nav hidden items-center gap-8 text-xs md:flex [&_a:hover]:underline [&_a]:underline-offset-4"
+          aria-label="Main navigation"
+        >
+          {chrome.navigation.map((item) => (
+            <Link key={item.href} href={item.href}>
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="header-actions hidden items-center gap-8 text-xs md:flex">
+          {authenticated ? (
+            <LogoutButton className="signin-link hover:underline underline-offset-4" />
+          ) : (
+            <Link
+              className="signin-link hover:underline underline-offset-4"
+              href={chrome.signin.href}
+            >
+              {chrome.signin.label}
+            </Link>
+          )}
+          <Link
+            className="button inline-flex min-h-[54px] items-center justify-center gap-7 rounded-sm border border-transparent px-6 py-3.5 text-sm font-semibold transition duration-200 hover:-translate-y-0.5 [&_svg]:transition-transform hover:[&_svg]:translate-x-0.5 hover:[&_svg]:-translate-y-0.5 button-small min-h-11 gap-5 px-4 py-2.5 text-xs button-dark bg-foreground text-inverse hover:bg-dark-border"
+            href={primary.href}
+          >
+            {primary.label}
+            <ArrowUpRight size={16} />
+          </Link>
+        </div>
+        <details className="mobile-menu relative md:hidden [&_summary]:p-2.5 [&_summary]:text-sm [&_nav]:absolute [&_nav]:right-0 [&_nav]:top-12 [&_nav]:z-20 [&_nav]:w-60 [&_nav]:border [&_nav]:border-border [&_nav]:bg-surface-raised [&_nav]:p-4 [&_nav]:shadow-xl [&_a]:flex [&_a]:justify-between [&_a]:px-2 [&_a]:py-3.5 [&_a]:text-sm">
+          <summary>{chrome.menu}</summary>
+          <nav aria-label="Mobile navigation">
+            {[
+              ...chrome.navigation,
+              ...(authenticated
+                ? [chrome.dashboard]
+                : [chrome.signin, chrome.signup]),
+            ].map((item) => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+                <ArrowUpRight size={16} />
+              </Link>
+            ))}
+            {authenticated && (
+              <LogoutButton className="flex w-full px-2 py-3.5 text-left text-sm hover:bg-surface" />
+            )}
+          </nav>
+        </details>
+      </header>
+    </>
+  );
+}
+
+export function SiteFooter() {
+  return (
+    <footer className="site-footer flex flex-col justify-between gap-2 border-t border-border py-6 text-[.65rem] leading-6 text-muted md:flex-row md:gap-5 section-wrap mx-auto w-[calc(100%-40px)] max-w-332 md:w-[calc(100%-64px)] xl:w-[calc(100%-112px)]">
+      <span>{chrome.footer}</span>
+      <span>
+        © {new Date().getFullYear()} {chrome.copyright}
+      </span>
+    </footer>
+  );
+}

@@ -1,0 +1,58 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "1. Start AI Microservice (Port 8010)",
+      "type": "shell",
+      "command": "cd service && if [ -d \".venv\" ]; then .venv/bin/python app.py; else python3 app.py; fi",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "group": "socialverify",
+        "panel": "dedicated",
+        "clear": true,
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "2. Start Backend Server (Port 9000)",
+      "type": "shell",
+      "command": "cd server && bun run src/index.ts",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "group": "socialverify",
+        "panel": "dedicated",
+        "clear": true,
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "3. Start Frontend Client (Port 3000/3001)",
+      "type": "shell",
+      "command": "cd client && bun run dev",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "group": "socialverify",
+        "panel": "dedicated",
+        "clear": true,
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Start All Services (SocialVerify)",
+      "dependsOn": [
+        "1. Start AI Microservice (Port 8010)",
+        "2. Start Backend Server (Port 9000)",
+        "3. Start Frontend Client (Port 3000/3001)"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

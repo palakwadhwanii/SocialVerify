@@ -1,0 +1,25 @@
+
+# Local application data
+logs/
+server/data/socialverify_db.json
+*.log
+
+# Python cache
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Dependencies and builds
+node_modules/
+.venv/
+venv/
+.next/
+.vercel/
+dist/
+build/
+
+# Secrets
+.env
+.env.*
+!.env.example
+!.env.*.example

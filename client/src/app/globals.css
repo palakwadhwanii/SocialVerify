@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f4ee;
+  --foreground: #252922;
+  --surface: #eeece4;
+  --surface-raised: #fffdf8;
+  --muted: #666a5f;
+  --border: #d7d8cb;
+  --accent: #f28067;
+  --accent-hover: #ed947f;
+  --accent-ink: #30231f;
+  --inverse: #f6f4ee;
+  --dark-surface: #202c26;
+  --dark-muted: #b6c1b8;
+  --dark-border: #35433a;
+  --sage: #b9c5a0;
+  --error: #9c3326;
+  --error-surface: #fae5dd;
+  --focus: #8b402c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-inverse: var(--inverse);
+  --color-dark-surface: var(--dark-surface);
+  --color-dark-muted: var(--dark-muted);
+  --color-dark-border: var(--dark-border);
+  --color-sage: var(--sage);
+  --color-error: var(--error);
+  --color-error-surface: var(--error-surface);
+  --color-focus: var(--focus);
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-editorial: Georgia, "Times New Roman", serif;
+}
+
+@theme {
+  @keyframes flow {
+    to { stroke-dashoffset: -72; }
+  }
+  @keyframes scan {
+    0%, 100% { transform: translateX(-140px); opacity: 0; }
+    50% { transform: translateX(140px); opacity: 1; }
+  }
+  --animate-enter: enter 0.85s cubic-bezier(.16,1,.3,1) both;
+  --animate-float: float 7s ease-in-out infinite;
+  @keyframes float {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -12px; }
+  }
+  --animate-signal: signal 5s ease-out infinite;
+  --animate-reading: reading linear both;
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: translateY(36px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes signal {
+    from {
+      transform: scale(0.9);
+      opacity: 0.5;
+    }
+    to {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+  }
+  @keyframes reading {
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+@utility reveal-up {
+  @apply transition-[opacity,transform] duration-1000 ease-[cubic-bezier(.16,1,.3,1)] data-[visible=false]:translate-y-14 data-[visible=false]:opacity-0 motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:transition-none;
+}
+
+@utility motion-stagger {
+  & > * {
+    @apply motion-safe:animate-enter;
+  }
+  & > :nth-child(2) { animation-delay: 70ms; }
+  & > :nth-child(3) { animation-delay: 140ms; }
+  & > :nth-child(4) { animation-delay: 210ms; }
+  & > :nth-child(5) { animation-delay: 280ms; }
+  & > :nth-child(n+6) { animation-delay: 350ms; }
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth scroll-pt-8 motion-reduce:scroll-auto;
+  }
+  body {
+    @apply m-0 bg-background text-foreground font-sans antialiased;
+  }
+  ::selection {
+    @apply bg-accent text-accent-ink;
+  }
+  :focus-visible {
+    @apply outline-3 outline-offset-4 outline-focus;
+  }
+  button,
+  summary {
+    @apply cursor-pointer motion-safe:transition-[color,background-color,border-color,box-shadow,scale] motion-safe:duration-200 motion-safe:active:scale-[.97];
+  }
+  input, textarea {
+    @apply transition-[border-color,box-shadow] duration-300 focus:shadow-[0_0_0_3px_var(--border)] motion-reduce:transition-none;
+  }
+  a {
+    @apply transition-colors duration-200 motion-reduce:transition-none;
+  }
+  [role="alert"] {
+    @apply motion-safe:animate-enter;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation: none !important;
+      transition-duration: 0s !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  button:disabled {
+    @apply cursor-wait opacity-65;
+  }
+  svg {
+    @apply shrink-0;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-medium;
+  }
+  h2 {
+    @apply whitespace-pre-line text-[clamp(2.4rem,4.6vw,4.5rem)] leading-[1.08] tracking-[-.055em];
+  }
+}
+
+@layer base {
+  a,
+  button {
+    cursor: pointer;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    background: var(--background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: var(--accent);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--background);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 10px;
+  }
+}
